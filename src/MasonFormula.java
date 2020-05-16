@@ -73,24 +73,24 @@ public class MasonFormula {
     {
         for(int i=0;i<arr.size()-1;++i)
         {
-                if(arr.get(i).size()==arr.get(i+1).size())
+            int k=i+1;
+            while(k<arr.size()&&arr.get(k).size()==arr.get(i).size())
+            {
+                Set<Integer> set = new HashSet<>(arr.get(i));
+                boolean all=true;
+                for(int j=0;j<arr.get(k).size();++j)
                 {
-                    Set<Integer> set = new HashSet<>(arr.get(i));
-                    boolean all=true;
-                    for(int j=0;j<arr.get(i+1).size();++j)
+                    if(!set.contains(arr.get(k).get(j)))
                     {
-                        if(!set.contains(arr.get(i+1).get(j)))
-                        {
-                            all=false;
-                            break;
-                        }
-                    }
-                    if(all)
-                    {
-                        arr.remove(i+1);
-                        --i;
+                        all=false;
+                        break;
                     }
                 }
+                if(all)
+                    arr.remove(k);
+                else
+                    ++k;
+            }
         }
     }
 
