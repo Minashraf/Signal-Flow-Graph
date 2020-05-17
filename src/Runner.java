@@ -72,6 +72,6 @@ public class Runner {
             }
         }
         MasonFormula obj=new MasonFormula(paths,gain);
-        System.out.println(obj.solve());
+        obj.solve();
     }
 }

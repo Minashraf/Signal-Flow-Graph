@@ -17,13 +17,15 @@ public class MasonFormula {
         this.PathGain=new ArrayList<>();
         this.LoopGain=new ArrayList<>();
     }
-    String solve()
+    void solve()
     {
         GetForwardPath();
         GetLoop();
         Gain(this.ForwardPath,this.PathGain);
         Gain(this.Loop,this.LoopGain);
-        return null;
+        double Numerator=NumeratorCalculation();
+        double Denominator=DenominatorCalculation();
+        System.out.println(Numerator+"/"+Denominator+"="+Numerator/Denominator);
     }
 
     private void GetForwardPath()
@@ -107,5 +109,42 @@ public class MasonFormula {
         }
     }
 
-}
+    private double NumeratorCalculation()
+    {
+        double answer=0;
+        int PathIndex=0;
+        for(List<Integer>path:this.ForwardPath)
+        {
+            Set<Integer> set = new HashSet<>(path);
+            double NonTouching=1;
+            int Loopindex=0;
+            for(List<Integer>LoopVertices:this.Loop)
+            {
+                boolean duplicate=false;
+                for(Integer NodeNumber:LoopVertices)
+                {
+                    if(set.contains(NodeNumber))
+                    {
+                        duplicate=true;
+                        break;
+                    }
+                }
+                if(!duplicate)
+                    NonTouching-=this.LoopGain.get(Loopindex);
+                ++Loopindex;
+            }
+            answer+=this.PathGain.get(PathIndex)*NonTouching;
+            ++PathIndex;
+        }
+        return answer;
+    }
 
+    private double DenominatorCalculation()
+    {
+        double answer=1;
+        for(Double d:LoopGain)
+            answer-=d;
+        return answer;
+    }
+
+}
