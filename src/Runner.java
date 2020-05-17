@@ -39,9 +39,9 @@ public class Runner {
                     System.out.println("Please enter a number");
                     error=true;
                 }
-                if(!error&&value>edges)
+                if(!error&&(value>edges||value<=0))
                 {
-                    System.out.println("Please enter a valid number less than the number of edges");
+                    System.out.println("Please enter a valid positive number less than the number of edges and greater than zero");
                     error=true;
                 }
                 if(error)
