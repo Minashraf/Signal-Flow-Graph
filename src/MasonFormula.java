@@ -144,6 +144,24 @@ public class MasonFormula {
         double answer=1;
         for(Double d:LoopGain)
             answer-=d;
+        for(int i=0;i<this.Loop.size();++i)
+        {
+            Set<Integer>set=new HashSet<>(this.Loop.get(i));
+            for(int j=i+1;j<this.Loop.size();++j)
+            {
+                boolean touched=false;
+                for(Integer s:this.Loop.get(j))
+                {
+                    if(set.contains(s))
+                    {
+                        touched=true;
+                        break;
+                    }
+                }
+                if(!touched)
+                    answer+=(this.LoopGain.get(j)*this.LoopGain.get(i));
+            }
+        }
         return answer;
     }
 
