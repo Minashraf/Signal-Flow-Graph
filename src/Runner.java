@@ -33,7 +33,7 @@ public class Runner {
             {
                 int value=0;
                 try{
-                    value=Integer.parseInt(s);
+                    value=Integer.parseInt(s.trim());
                 }catch (Exception e)
                 {
                     System.out.println("Please enter a number");
@@ -54,7 +54,7 @@ public class Runner {
             }
             paths.add(new ArrayList<>());
             for(String s:split)
-                paths.get(paths.size()-1).add(Integer.parseInt(s));
+                paths.get(paths.size()-1).add(Integer.parseInt(s.trim()));
         }
         for(int i=1;i<edges;++i)
         {
@@ -63,7 +63,7 @@ public class Runner {
             {
                 System.out.println("Please enter the gain from "+i+" to "+paths.get(i).get(j)+":");
                 try {
-                    gain.get(gain.size()-1).add(Double.parseDouble(input.nextLine()));
+                    gain.get(gain.size()-1).add(Double.parseDouble(input.nextLine().trim()));
                 }catch (Exception e)
                 {
                     System.out.println("Please enter a number");
