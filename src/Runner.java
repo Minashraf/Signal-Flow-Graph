@@ -21,7 +21,7 @@ public class Runner {
         }
         List<List<Integer>>paths=new ArrayList<>();
         paths.add(new ArrayList<>());
-        List<List<Integer>>gain=new ArrayList<>();
+        List<List<Double>>gain=new ArrayList<>();
         gain.add(new ArrayList<>());
         input.nextLine();
         for(int i=0;i<edges-1;++i)
@@ -63,11 +63,10 @@ public class Runner {
             {
                 System.out.println("Please enter the gain from "+i+" to "+paths.get(i).get(j)+":");
                 try {
-                    gain.get(gain.size()-1).add(Integer.parseInt(input.nextLine()));
+                    gain.get(gain.size()-1).add(Double.parseDouble(input.nextLine()));
                 }catch (Exception e)
                 {
                     System.out.println("Please enter a number");
-                    gain.remove(gain.size()-1);
                     --j;
                 }
             }

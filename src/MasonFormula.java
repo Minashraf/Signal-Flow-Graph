@@ -2,21 +2,27 @@ import java.util.*;
 
 public class MasonFormula {
     private final List<List<Integer>>adjList;
-    private final List<List<Integer>>value;
-    private List<List<Integer>>ForwardPath;
-    private List<List<Integer>>Loop;
+    private final List<List<Double>>value;
+    private final List<List<Integer>>ForwardPath;
+    private final List<List<Integer>>Loop;
+    private final List<Double>PathGain;
+    private final List<Double>LoopGain;
 
-    public MasonFormula(List<List<Integer>> paths,List<List<Integer>> values)
+    public MasonFormula(List<List<Integer>> paths,List<List<Double>> values)
     {
         this.adjList=paths;
         this.value=values;
         this.ForwardPath=new ArrayList<>();
         this.Loop=new ArrayList<>();
+        this.PathGain=new ArrayList<>();
+        this.LoopGain=new ArrayList<>();
     }
     String solve()
     {
         GetForwardPath();
         GetLoop();
+        Gain(this.ForwardPath,this.PathGain);
+        Gain(this.Loop,this.LoopGain);
         return null;
     }
 
@@ -61,11 +67,7 @@ public class MasonFormula {
             boolean[]visited=new boolean[adjList.size()+1];
             DFS(new ArrayList<>(),i,i,i,visited,this.Loop);
         }
-        this.Loop.sort(new Comparator<>() {
-            public int compare(List a1, List a2) {
-                return a1.size() - a2.size();
-            }
-        });
+        this.Loop.sort(Comparator.comparingInt(List::size));
         DuplicateRemoval(this.Loop);
     }
 
@@ -91,6 +93,17 @@ public class MasonFormula {
                 else
                     ++k;
             }
+        }
+    }
+
+    private void Gain(List<List<Integer>>original,List<Double>ToBeAdded)
+    {
+        for(List<Integer>arr:original)
+        {
+            double gain=1;
+            for(int i=0;i<arr.size()-1;++i)
+                gain*=value.get(arr.get(i)).get(adjList.get(arr.get(i)).indexOf(arr.get(i+1)));
+            ToBeAdded.add(gain);
         }
     }
 
