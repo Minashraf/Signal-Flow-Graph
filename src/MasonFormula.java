@@ -2,7 +2,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
 
-public class MasonFormula {
+class MasonFormula {
     private final List<List<Integer>>adjList;
     private final List<List<Double>>value;
     private final List<List<Integer>>ForwardPath;
@@ -10,7 +10,7 @@ public class MasonFormula {
     private final List<Double>PathGain;
     private final List<Double>LoopGain;
 
-    public MasonFormula(List<List<Integer>> paths,List<List<Double>> values)
+    MasonFormula(List<List<Integer>> paths, List<List<Double>> values)
     {
         this.adjList=paths;
         this.value=values;
@@ -122,7 +122,7 @@ public class MasonFormula {
         {
             Set<Integer> set = new HashSet<>(path);
             double NonTouching=1;
-            int Loopindex=0;
+            int LoopIndex=0;
             for(List<Integer>LoopVertices:this.Loop)
             {
                 boolean duplicate=false;
@@ -135,8 +135,8 @@ public class MasonFormula {
                     }
                 }
                 if(!duplicate)
-                    NonTouching-=this.LoopGain.get(Loopindex);
-                ++Loopindex;
+                    NonTouching-=this.LoopGain.get(LoopIndex);
+                ++LoopIndex;
             }
             answer+=this.PathGain.get(PathIndex)*NonTouching;
             ++PathIndex;

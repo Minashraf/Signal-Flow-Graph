@@ -1,8 +1,8 @@
-public class Shape {
+class Shape {
 
-    private int x;
-    private int y;
-    private int id;
+    private final int x;
+    private final int y;
+    private final int id;
 
     public Shape(int x,int y,int id)
     {

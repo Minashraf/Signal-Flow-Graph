@@ -4,13 +4,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public class BackEnd extends BasicGameState {
+class BackEnd extends BasicGameState {
     private int id=1;
     private boolean clicked=false;
     private List<Shape>ShapeList;
@@ -45,7 +44,7 @@ public class BackEnd extends BasicGameState {
         StringBuilder FromTo= new StringBuilder();
         for(Map.Entry<Point,Double>mp:gain.entrySet())
         {
-            FromTo.append(mp.getKey().getX()).append("    ").append(mp.getKey().getY()).append("      ").append(mp.getValue());
+            FromTo.append((int)mp.getKey().getX()).append("      ").append((int)mp.getKey().getY()).append("        ").append(mp.getValue());
             FromTo.append("\n");
         }
         g.setColor(Color.red);
@@ -71,9 +70,9 @@ public class BackEnd extends BasicGameState {
             if (Mouse.isButtonDown(0) && !clicked) {
                 if (exist == null) {
                     clicked = true;
-                    int posx = Mouse.getX();
-                    int posy = 600 - Mouse.getY();
-                    ShapeList.add(new Shape(posx, posy, id++));
+                    int PosX = Mouse.getX();
+                    int PosY = 600 - Mouse.getY();
+                    ShapeList.add(new Shape(PosX, PosY, id++));
                 } else {
                     clicked = true;
                     ClickedShapes.add(exist);
