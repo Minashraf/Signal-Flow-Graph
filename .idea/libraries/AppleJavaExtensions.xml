@@ -1,0 +1,25 @@
+<component name="libraryTable">
+  <library name="AppleJavaExtensions">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/AppleJavaExtensions.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/asm-debug-all.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/jinput.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/jogg-0.0.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/jorbis-0.0.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/laf-plugin-7.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/laf-widget-7.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/log4j-api-2.0-beta9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/lwjgl-debug.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/lwjgl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/lwjgl_test.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/lwjgl_util.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/lwjgl_util_applet.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/lzma.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/slick.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/substance-7.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/jars/trident-7.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
