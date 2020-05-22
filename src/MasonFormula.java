@@ -1,3 +1,5 @@
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class MasonFormula {
@@ -17,7 +19,7 @@ public class MasonFormula {
         this.PathGain=new ArrayList<>();
         this.LoopGain=new ArrayList<>();
     }
-    void solve()
+    String solve()
     {
         GetForwardPath();
         GetLoop();
@@ -25,7 +27,10 @@ public class MasonFormula {
         Gain(this.Loop,this.LoopGain);
         double Numerator=NumeratorCalculation();
         double Denominator=DenominatorCalculation();
-        System.out.println(Numerator+"/"+Denominator+"="+Numerator/Denominator);
+        DecimalFormat df = new DecimalFormat("#.#####");
+        df.setRoundingMode(RoundingMode.CEILING);
+        Number answer=Numerator/Denominator;
+        return Numerator+"/"+Denominator+"="+df.format(answer.doubleValue());
     }
 
     private void GetForwardPath()

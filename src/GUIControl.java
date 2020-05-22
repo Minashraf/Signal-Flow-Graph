@@ -8,32 +8,32 @@ public class GUIControl extends StateBasedGame {
     private static final String appName="Signal Flow Graph";
     private static final int menu=0;
 
-    private GUIControl(String appName) throws SlickException {
+    private GUIControl(String appName)
+    {
         super(appName);
-        this.addState(new MainScreen(menu));
+        this.addState(new BackEnd());
         this.enterState(menu);
     }
 
-    public void initStatesList(GameContainer gc )throws SlickException {
+    public void initStatesList(GameContainer gc )throws SlickException
+    {
         this.getState(menu).init(gc,this);
         gc.setTargetFrameRate(60);
         gc.setShowFPS(false);
 
     }
 
-    public static void main(String[] args) {
-        try {
+    public static void main(String[] args)
+    {
+        try
+        {
             AppGameContainer appc = new AppGameContainer(new GUIControl(appName));
-
-            appc.setDisplayMode(1280, 820, false);
+            appc.setDisplayMode(1280, 600, false);
             appc.start();
             appc.setTargetFrameRate(30);
-
-
         } catch (SlickException e) {
-            System.out.println("Slick Exception Found");
+            e.printStackTrace();
         }
-
     }
 
 }
