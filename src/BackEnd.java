@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 
 class BackEnd extends BasicGameState {
     private int id=1;
@@ -19,6 +22,8 @@ class BackEnd extends BasicGameState {
     private String answer="";
     private List<List<Integer>>Path;
     private List<List<Double>>Gain;
+    private MasonFormula Mason;
+    private boolean Answer=false;
 
     BackEnd()
     {
@@ -34,7 +39,7 @@ class BackEnd extends BasicGameState {
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g){
         g.setColor(Color.white);
-        g.fillRect(0,0,1280,600);
+        g.fillRect(0,0,1350,650);
         for(Shape s: ShapeList)
         {
             g.setColor(Color.black);
@@ -48,44 +53,80 @@ class BackEnd extends BasicGameState {
             FromTo.append("\n");
         }
         g.setColor(Color.red);
-        g.drawString(FromTo.toString(),800,185);
+        g.drawString(FromTo.toString(),900,185);
         g.setColor(Color.black);
         g.drawString("1.Left Click to create a node\n" +
                           "2.Click on 2 nodes to enter the gain\n"+
                           "3.Right click to solve\n"+
                           "NOTE: this program works only with Node 1 as \n" +
-                            "the starting node and Last Node MUST be a sink node\n"+
-                            "and the one with the highest number",800,50);
-        g.drawString("From"+" "+"  To       Gain",800,170);
-        g.drawString("Answer: "+answer,1000,500);
+                            "the starting node and Last Node MUST be a sink\n"+
+                            "node and the one with the highest number",900,50);
+        g.drawString("From"+" "+"  To       Gain",900,170);
+        if(finished&&!Answer)
+        {
+            try {
+                ScriptEngineManager mgr = new ScriptEngineManager();
+                ScriptEngine engine = mgr.getEngineByName("JavaScript");
+                answer+="="+engine.eval(answer);
+                Answer=true;
+            } catch (ScriptException e) {
+                e.printStackTrace();
+            }
+        }
+        g.drawString("Answer: "+answer,10,610);
+        StringBuilder ForwardPath= new StringBuilder();
+        ForwardPath.append("Forward Path:");
+        StringBuilder Loop= new StringBuilder();
+        Loop.append("Loop:");
+        StringBuilder NonTouchingLoop= new StringBuilder();
+        NonTouchingLoop.append("Non-touching Loop:");
         if(finished)
-            g.drawString("Press anywhere to restart",1000,550);
+        {
+            g.drawString("Press anywhere to restart",1100,610);
+            List<List<Integer>>Temp=Mason.ForwardPath();
+            for(List<Integer>w:Temp)
+                ForwardPath.append(w.toString());
+            Temp=Mason.LoopPath();
+            for(List<Integer>w:Temp)
+                Loop.append(w.toString());
+            List<Object>temp=Mason.NonTouching();
+            for(Object w:temp)
+                NonTouchingLoop.append(w);
+        }
+        g.drawString(ForwardPath.toString(),10,550);
+        g.drawString(Loop.toString(),10,570);
+        g.drawString(NonTouchingLoop.toString(),10,590);
     }
 
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta){
-        if(!finished&&Mouse.getX()<800)
+        if(!finished&&Mouse.getX()<900-40&&650-Mouse.getY()<550)
         {
-            Shape exist = ShapeExists(Mouse.getX(), 600 - Mouse.getY());
+            Shape exist = ShapeExists(Mouse.getX(), 650 - Mouse.getY());
             if (Mouse.isButtonDown(0) && !clicked) {
                 if (exist == null) {
                     clicked = true;
                     int PosX = Mouse.getX();
-                    int PosY = 600 - Mouse.getY();
+                    int PosY = 650 - Mouse.getY();
                     ShapeList.add(new Shape(PosX, PosY, id++));
                 } else {
                     clicked = true;
                     ClickedShapes.add(exist);
                     if (ClickedShapes.size() == 2) {
                         try {
-                            double valueOfGain=Double.parseDouble(JOptionPane.showInputDialog("Please inert the gain from node " + ClickedShapes.get(0).getId() + " to " + ClickedShapes.get(1).getId()));
-                            if(valueOfGain!=0)
-                                gain.put(new Point(Integer.parseInt(ClickedShapes.get(0).getId()), Integer.parseInt(ClickedShapes.get(1).getId())), valueOfGain);
-                            else
-                                gain.remove(new Point(Integer.parseInt(ClickedShapes.get(0).getId()), Integer.parseInt(ClickedShapes.get(1).getId())));
+                            String InsertedText=JOptionPane.showInputDialog("Please inert the gain from node " + ClickedShapes.get(0).getId() + " to " + ClickedShapes.get(1).getId());
+                            if(InsertedText!=null)
+                            {
+                                double valueOfGain=Double.parseDouble(InsertedText);
+                                if(valueOfGain!=0)
+                                    gain.put(new Point(Integer.parseInt(ClickedShapes.get(0).getId()), Integer.parseInt(ClickedShapes.get(1).getId())), valueOfGain);
+                                else
+                                    gain.remove(new Point(Integer.parseInt(ClickedShapes.get(0).getId()), Integer.parseInt(ClickedShapes.get(1).getId())));
+                            }
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "Enter the gain value\n (Must be a number)", "Failure", JOptionPane.ERROR_MESSAGE);
                         }
+
                         ClickedShapes = new ArrayList<>();
                     }
                 }
@@ -96,8 +137,16 @@ class BackEnd extends BasicGameState {
                 finished = true;
                 sort();
                 Build();
-                MasonFormula Mason=new MasonFormula(Path,Gain);
+                this.Mason=new MasonFormula(Path,Gain);
                 this.answer=Mason.solve();
+                ScriptEngineManager mgr = new ScriptEngineManager();
+                ScriptEngine engine = mgr.getEngineByName("JavaScript");
+                String foo = "40+2";
+                try {
+                    System.out.println(engine.eval(foo));
+                } catch (ScriptException e) {
+                    e.printStackTrace();
+                }
             }
         }
         else if (Mouse.isButtonDown(0)&&finished)

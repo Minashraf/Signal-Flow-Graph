@@ -27,7 +27,7 @@ public class GUIControl extends StateBasedGame {
         try
         {
             AppGameContainer app = new AppGameContainer(new GUIControl());
-            app.setDisplayMode(1280, 600, false);
+            app.setDisplayMode(1350, 650, false);
             app.start();
             app.setTargetFrameRate(30);
         } catch (SlickException e) {

@@ -1,5 +1,3 @@
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.*;
 
 class MasonFormula {
@@ -9,6 +7,7 @@ class MasonFormula {
     private final List<List<Integer>>Loop;
     private final List<Double>PathGain;
     private final List<Double>LoopGain;
+    private final List<Object>NonTouchingLoops;
 
     MasonFormula(List<List<Integer>> paths, List<List<Double>> values)
     {
@@ -18,19 +17,33 @@ class MasonFormula {
         this.Loop=new ArrayList<>();
         this.PathGain=new ArrayList<>();
         this.LoopGain=new ArrayList<>();
+        this.NonTouchingLoops=new ArrayList<>();
     }
+
     String solve()
     {
         GetForwardPath();
         GetLoop();
         Gain(this.ForwardPath,this.PathGain);
         Gain(this.Loop,this.LoopGain);
-        double Numerator=NumeratorCalculation();
+        String Numerator=NumeratorCalculation();
         double Denominator=DenominatorCalculation();
-        DecimalFormat df = new DecimalFormat("#.#####");
-        df.setRoundingMode(RoundingMode.CEILING);
-        Number answer=Numerator/Denominator;
-        return Numerator+"/"+Denominator+"="+df.format(answer.doubleValue());
+        return '('+Numerator+")/"+Denominator;
+    }
+
+    List<List<Integer>> ForwardPath()
+    {
+        return this.ForwardPath;
+    }
+
+    List<List<Integer>> LoopPath()
+    {
+        return this.Loop;
+    }
+
+    List<Object> NonTouching()
+    {
+        return this.NonTouchingLoops;
     }
 
     private void GetForwardPath()
@@ -114,9 +127,9 @@ class MasonFormula {
         }
     }
 
-    private double NumeratorCalculation()
+    private String NumeratorCalculation()
     {
-        double answer=0;
+        String answer="";
         int PathIndex=0;
         for(List<Integer>path:this.ForwardPath)
         {
@@ -138,10 +151,10 @@ class MasonFormula {
                     NonTouching-=this.LoopGain.get(LoopIndex);
                 ++LoopIndex;
             }
-            answer+=this.PathGain.get(PathIndex)*NonTouching;
+            answer=answer+this.PathGain.get(PathIndex)+'*'+NonTouching+'+';
             ++PathIndex;
         }
-        return answer;
+        return answer.substring(0,answer.length()-1);
     }
 
     private double DenominatorCalculation()
@@ -164,7 +177,27 @@ class MasonFormula {
                     }
                 }
                 if(!touched)
+                {
                     answer+=(this.LoopGain.get(j)*this.LoopGain.get(i));
+                    this.NonTouchingLoops.add('(');
+                    this.NonTouchingLoops.add('[');
+                    for(int k=0;k<this.Loop.get(j).size();++k)
+                    {
+                        this.NonTouchingLoops.add(this.Loop.get(j).get(k));
+                        if(k!=this.Loop.get(j).size()-1)
+                            this.NonTouchingLoops.add(",");
+                    }
+                    this.NonTouchingLoops.add(']');
+                    this.NonTouchingLoops.add('[');
+                    for(int k=0;k<this.Loop.get(i).size();++k)
+                    {
+                        this.NonTouchingLoops.add(this.Loop.get(i).get(k));
+                        if(k!=this.Loop.get(i).size()-1)
+                            this.NonTouchingLoops.add(",");
+                    }
+                    this.NonTouchingLoops.add(']');
+                    this.NonTouchingLoops.add(')');
+                }
             }
         }
         return answer;
