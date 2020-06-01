@@ -4,7 +4,7 @@ class Shape {
     private final int y;
     private final int id;
 
-    public Shape(int x,int y,int id)
+    Shape(int x, int y, int id)
     {
         this.x=x;
         this.y=y;
