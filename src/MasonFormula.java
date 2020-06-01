@@ -25,7 +25,7 @@ class MasonFormula {
     {
         GetForwardPath();
         if(this.ForwardPath.size()==0)
-            return null;
+            return "0";
         GetLoop();
         Gain(this.ForwardPath,this.PathGain);
         Gain(this.Loop,this.LoopGain);
