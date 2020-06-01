@@ -1,6 +1,7 @@
 import java.util.*;
 
 class MasonFormula {
+
     private final List<List<Integer>>adjList;
     private final List<List<Double>>value;
     private final List<List<Integer>>ForwardPath;
@@ -129,7 +130,7 @@ class MasonFormula {
 
     private String NumeratorCalculation()
     {
-        String answer="";
+        StringBuilder answer= new StringBuilder();
         int PathIndex=0;
         for(List<Integer>path:this.ForwardPath)
         {
@@ -151,7 +152,7 @@ class MasonFormula {
                     NonTouching-=this.LoopGain.get(LoopIndex);
                 ++LoopIndex;
             }
-            answer=answer+this.PathGain.get(PathIndex)+'*'+NonTouching+'+';
+            answer.append(this.PathGain.get(PathIndex)).append('*').append(NonTouching).append('+');
             ++PathIndex;
         }
         return answer.substring(0,answer.length()-1);
@@ -180,27 +181,24 @@ class MasonFormula {
                 {
                     answer+=(this.LoopGain.get(j)*this.LoopGain.get(i));
                     this.NonTouchingLoops.add('(');
-                    this.NonTouchingLoops.add('[');
-                    for(int k=0;k<this.Loop.get(j).size();++k)
-                    {
-                        this.NonTouchingLoops.add(this.Loop.get(j).get(k));
-                        if(k!=this.Loop.get(j).size()-1)
-                            this.NonTouchingLoops.add(",");
-                    }
-                    this.NonTouchingLoops.add(']');
-                    this.NonTouchingLoops.add('[');
-                    for(int k=0;k<this.Loop.get(i).size();++k)
-                    {
-                        this.NonTouchingLoops.add(this.Loop.get(i).get(k));
-                        if(k!=this.Loop.get(i).size()-1)
-                            this.NonTouchingLoops.add(",");
-                    }
-                    this.NonTouchingLoops.add(']');
+                    ScreenPrint(j);
+                    ScreenPrint(i);
                     this.NonTouchingLoops.add(')');
                 }
             }
         }
         return answer;
+    }
+
+    private void ScreenPrint(int j) {
+        this.NonTouchingLoops.add('[');
+        for(int k=0;k<this.Loop.get(j).size();++k)
+        {
+            this.NonTouchingLoops.add(this.Loop.get(j).get(k));
+            if(k!=this.Loop.get(j).size()-1)
+                this.NonTouchingLoops.add(",");
+        }
+        this.NonTouchingLoops.add(']');
     }
 
 }

@@ -139,14 +139,6 @@ class BackEnd extends BasicGameState {
                 Build();
                 this.Mason=new MasonFormula(Path,Gain);
                 this.answer=Mason.solve();
-                ScriptEngineManager mgr = new ScriptEngineManager();
-                ScriptEngine engine = mgr.getEngineByName("JavaScript");
-                String foo = "40+2";
-                try {
-                    System.out.println(engine.eval(foo));
-                } catch (ScriptException e) {
-                    e.printStackTrace();
-                }
             }
         }
         else if (Mouse.isButtonDown(0)&&finished)
