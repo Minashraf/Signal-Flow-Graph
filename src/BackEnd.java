@@ -67,13 +67,17 @@ class BackEnd extends BasicGameState {
             try {
                 ScriptEngineManager mgr = new ScriptEngineManager();
                 ScriptEngine engine = mgr.getEngineByName("JavaScript");
-                answer+="="+engine.eval(answer);
+                if(answer!=null)
+                    answer+="="+engine.eval(answer);
                 Answer=true;
             } catch (ScriptException e) {
                 e.printStackTrace();
             }
         }
-        g.drawString("Answer: "+answer,10,610);
+        if(answer!=null)
+            g.drawString("Answer: "+answer,10,610);
+        else
+            g.drawString("Answer: "+"No Forward path found",10,610);
         StringBuilder ForwardPath= new StringBuilder();
         ForwardPath.append("Forward Path:");
         StringBuilder Loop= new StringBuilder();

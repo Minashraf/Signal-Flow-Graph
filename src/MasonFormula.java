@@ -24,6 +24,8 @@ class MasonFormula {
     String solve()
     {
         GetForwardPath();
+        if(this.ForwardPath.size()==0)
+            return null;
         GetLoop();
         Gain(this.ForwardPath,this.PathGain);
         Gain(this.Loop,this.LoopGain);
